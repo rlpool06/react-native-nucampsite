@@ -15,8 +15,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    postFavorite: campsiteId => (postFavorite(campsiteId)),
-    postComment: (campsiteId, rating, author, text) => (postComment(campsiteId, rating, author, text)),
+    postFavorite: campsiteId => postFavorite(campsiteId),
+    postComment: (campsiteId, rating, author, text) => postComment(campsiteId, rating, author, text),
 }
 
 function RenderComments({comments}) {
@@ -27,12 +27,12 @@ function RenderComments({comments}) {
                 <Text style={{fontSize: 14}}>{item.text}</Text>
                 <Rating 
                         readonly
-                        startingValue={this.state.rating}
+                        startingValue={5}
                         imageSize={10}
                         onFinishRating={rating => this.setState({rating: rating})}
                         style={{paddingVertical: '5%', alignItems: 'flex-start'}}
                     />
-                <Text style={{fontSize: 12}}>{`-- ${item.text}, ${item.date}`}</Text>
+                <Text style={{fontSize: 12}}>{`-- ${item.author}, ${item.date}`}</Text>
             </View>
         );
     };
@@ -103,7 +103,7 @@ class CampsiteInfo extends Component {
     }
 
     handleComment(campsiteId) {
-        postComment(campsiteId, rating, author, text);
+        this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
         this.toggleModal();
     }
 
@@ -145,7 +145,7 @@ class CampsiteInfo extends Component {
                     <View style={styles.modal}>
                         <Rating 
                             showRating
-                            startingValue={this.state.rating}
+                            startingValue={5}
                             imageSize={40}
                             onFinishRating={rating => this.setState({rating: rating})}
                             style={{paddingVertical: 10}}                        
@@ -154,7 +154,7 @@ class CampsiteInfo extends Component {
                             placeholder='Author'
                             leftIcon={{ type: 'font-awesome', name: 'user-o' }}
                             leftIconContainerStyle={{paddingRight: 10}}
-                            onChangeText={text => this.setState({text: text})}
+                            onChangeText={author => this.setState({author: author})}
                             value={this.state.author}
                         />
                         <Input 
@@ -164,13 +164,12 @@ class CampsiteInfo extends Component {
                             onChangeText={text => this.setState({text: text})}
                             value={this.state.text}
                         />
-                        <View>
+                        <View style={{margin: 10}}>
                             <Button 
                                 title='Submit'
                                 color='#5637DD'
                                 onPress={() => {
-                                    this.handleComment();
-                                    this.resetForm();
+                                    this.handleComment(campsiteId);
                                 }}
                             />
                         </View>

@@ -32,21 +32,22 @@ export const addComments = comments => ({
 });
 
 export const postComment = (campsiteId, rating, author, text) => dispatch => {
+    const date = new Date().toISOString();
     const newComment = {
         campsiteId,
         rating,
         author,
         text,
+        date
     };
-    newComment.date = new Date().toISOString();
     setTimeout (() => {
-        dispatch(addFavorite(campsiteId));
+        dispatch(addComment(newComment));
     }, 2000);
 };
 
-export const addComment = comment => ({
+export const addComment = newComment => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: comment = newComment
+    payload: newComment
 })
 
 export const fetchCampsites = () => dispatch => {
