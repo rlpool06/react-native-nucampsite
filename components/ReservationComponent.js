@@ -21,22 +21,22 @@ class Reservation extends Component {
         title: 'Reserve Campsite'
     }
 
+
     handleReservation() {
-            Alert.alert(
-                'Begin Search?',
-                `Number of Campers: ${this.state.campers} \n\nHike-In? ${this.state.hikeIn}  \n\nDate: ${this.state.date.toLocaleDateString('en-US')}`,
-                [
-                    {
-                        text: 'Cancel',
-                        onPress: () => console.log(item.name + 'Not Found'),
-                        style: 'cancel'
-                    },
-                    {
-                        text: 'OK',
-                    },
-                ],
-                { cancelable: false }
-            )
+        Alert.alert(
+            'Begin Search?',
+            `Number of Campers: ${this.state.campers} \n\nHike-In? ${this.state.hikeIn} \n\nDate: ${this.state.date.toLocaleDateString('en-US')}`,
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Ok',
+                },
+            ],
+            { cancelable: false }
+        )
     };
 
     render() {
@@ -97,6 +97,7 @@ class Reservation extends Component {
                             accessibilityLabel='Tap me to search for available campsites to reserve'
                         />
                     </View>
+                    
                 </Animatable.View>
             </ScrollView>
         );
@@ -118,24 +119,6 @@ const styles = StyleSheet.create({
     formItem: {
         flex: 1
     },
-    searchView: {
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        flex: 1
-    },
-    searchTouchable: {
-        backgroundColor: 'red',
-        height: '100%',
-        justifyContent: 'center'
-    },
-    searchText: {
-        color: 'white',
-        fontWeight: '700',
-        textAlign: 'center',
-        fontSize: 16,
-        width: 100
-    }
 });
 
 export default Reservation;
