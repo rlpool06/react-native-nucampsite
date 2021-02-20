@@ -16,7 +16,6 @@ import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
-import { setStatusBarNetworkActivityIndicatorVisible } from 'expo-status-bar';
 
 const mapDispatchToProps = {
         fetchCampsites,
@@ -324,16 +323,19 @@ class Main extends Component {
         this.props.fetchPartners();
         this.props.fetchPromotions();
 
-        NetInfo.fetch().then(connectionInfo => {
-            (Platform.OS === 'ios')
+        this.unsuscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
+            console.log(connectionInfo)
+            this.handleConnectivityChange(connectionInfo);
+        });
+    
+
+        showNetInfo = async () => {
+            const NetInfo = await NetInfo.connectionInfoAsync
+                (Platform.OS === 'ios')
                 ?Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
                 : ToastAndroid.show('Initial Network Connectivity Type: ' +
                     connectionInfo.type, ToastAndroid.LONG);
-        });
-
-        this.unsuscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
-            this.handleConnectivityChange(connectionInfo);
-        });
+        }
     };
 
     componentWillUnmount() {
